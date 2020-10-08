@@ -87,6 +87,10 @@ section {
     color: #fff;
     transition: ease 0.3s all;
 }
+.selected{
+    background-color: black;
+    color: white!important;
+}
 
 /* Header Styles */
 .page__header {

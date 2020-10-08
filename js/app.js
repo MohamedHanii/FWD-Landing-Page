@@ -39,6 +39,16 @@ function navBarHelper(section){
     return li;
 
 }
+function AnchorHelper(pressed){
+    const elements = navList.childNodes;
+    elements.forEach(element=>{
+        if(element.firstChild === pressed){
+            element.firstChild.classList.add('selected');
+        }else{
+            element.firstChild.classList.remove('selected');
+        }
+    });
+}
 
 
 /**
@@ -53,7 +63,6 @@ function navBarBuilder(){
     const fragment = document.createDocumentFragment();
     for(const section of sections){
         const li = navBarHelper(section);
-        console.log(li);
         fragment.appendChild(li);
     }
     navList.appendChild(fragment);
@@ -64,7 +73,11 @@ function navBarBuilder(){
 function addActive(){
     for(const section of sections){
         const viewable = section.getBoundingClientRect();
-        if (window.scrollY >= viewable.top){
+
+        if (viewable.top<= 335 && viewable.bottom >= 180){
+            const idSection = section.getAttribute('id');
+            const pressed = document.querySelector(`a[data-anchor="${idSection}"]`);
+            AnchorHelper(pressed);
             section.classList.add('your-active-class');
         } else {
             section.classList.remove('your-active-class');
@@ -74,7 +87,13 @@ function addActive(){
 
 // Scroll to anchor ID using scrollTO event
 function scrollToAnchor(event){
-    location.hash="#"+event.target.dataset.anchor;
+    const anchor = event.target.dataset.anchor; 
+    const pressed = document.querySelector(`a[data-anchor="${anchor}"]`);
+    if(!event){
+        AnchorHelper(pressed);
+    }
+    
+    document.getElementById(anchor).scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 }
 
 /**
