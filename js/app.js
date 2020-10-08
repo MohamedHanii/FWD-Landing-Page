@@ -32,23 +32,24 @@ function navBarHelper(section){
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.dataset.anchor = section.getAttribute('id');
-    
     a.textContent = section.dataset.nav;
     a.className = 'menu__link';
     li.appendChild(a);
     return li;
-
 }
+
+
 function AnchorHelper(pressed){
     const elements = navList.childNodes;
     elements.forEach(element=>{
-        if(element.firstChild === pressed){
+        if(element.firstChild == pressed){
             element.firstChild.classList.add('selected');
         }else{
             element.firstChild.classList.remove('selected');
         }
     });
 }
+
 
 
 /**
@@ -70,16 +71,22 @@ function navBarBuilder(){
 
 
 // Add class 'active' to section when near top of viewport
+
+
+/**
+ * If condition is code snippet 
+ * from https://github.com/ahmedmahmoud116/Landingpage-FWD/blob/136033251b33dcab04ec54454de307151b669a5d/js/app.js Repo 
+ * 
+ */
 function addActive(){
     for(const section of sections){
         const viewable = section.getBoundingClientRect();
-
-        if (viewable.top<= 335 && viewable.bottom >= 180){
+        if (viewable.top<= 335 && viewable.bottom >= 180 ){
             const idSection = section.getAttribute('id');
-            const pressed = document.querySelector(`a[data-anchor="${idSection}"]`);
+            const pressed = document.querySelector(`[data-anchor="${idSection}"]`);
             AnchorHelper(pressed);
             section.classList.add('your-active-class');
-        } else {
+        }else{
             section.classList.remove('your-active-class');
         }
     }
@@ -87,13 +94,12 @@ function addActive(){
 
 // Scroll to anchor ID using scrollTO event
 function scrollToAnchor(event){
-    const anchor = event.target.dataset.anchor; 
-    const pressed = document.querySelector(`a[data-anchor="${anchor}"]`);
-    if(!event){
+    const linkRef = event.target.dataset.anchor; 
+    const pressed = document.querySelector(`[data-anchor="${linkRef}"]`);
+    if(event != null){
         AnchorHelper(pressed);
     }
-    
-    document.getElementById(anchor).scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    document.getElementById(linkRef).scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 }
 
 /**
